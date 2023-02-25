@@ -30,8 +30,8 @@ from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
 from adafruit_hid.keycode import Keycode
 
-# Test - when true keycodes are not sent
-TEST = True
+# When true keycodes are sent
+KC_LIVE = False
 
 # Modes
 MODE_NONE   = 0
@@ -70,9 +70,10 @@ hue = {
 
 # Values
 VAL_SPLIT = (1.0/16.0)
-VAL_OFF   = (VAL_SPLIT *  1.0)
+VAL_MIN   = (VAL_SPLIT *  0.0)
+VAL_OFF   = (VAL_SPLIT *  2.0)
 VAL_ON    = (VAL_SPLIT * 10.0)
-VAL_DOWN  = (VAL_SPLIT * 16.0)
+VAL_MAX   = (VAL_SPLIT * 16.0)
 VAL_STEP  = 0.025
 
 # Keycodes
@@ -82,22 +83,22 @@ KC_OFF    = Keycode.ALT     # Off - sent for toggle off'
 
 # Configuration
 config = [
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_ZERO,          "down": False, "on": True,  "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_ONE,           "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_TWO,           "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_THREE,         "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_FOUR,          "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_FIVE,          "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_SIX,           "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_SEVEN,         "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_EIGHT,         "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_NINE,          "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_FORWARD_SLASH, "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_ASTERISK,      "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_MINUS,         "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_PLUS,          "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_KEY,  "kc": Keycode.KEYPAD_ENTER,         "down": False, "on": False, "val": 0.0},
-    { "hue": hue["magenta"], "mode": MODE_NONE, "kc": Keycode.KEYPAD_PERIOD,        "down": False, "on": False, "val": 0.0},
+    { "hue": hue["red"],     "mode": MODE_TOGGLE, "kc": Keycode.F5,                   "down": False, "on": True,  "val": 0.0}, # 0
+    { "hue": hue["magenta"], "mode": MODE_KEY,    "kc": Keycode.F9,                   "down": False, "on": False, "val": 0.0}, # 1
+    { "hue": hue["magenta"], "mode": MODE_NONE,   "kc": None,                         "down": False, "on": False, "val": 0.0}, # 2
+    { "hue": hue["magenta"], "mode": MODE_NONE,   "kc": None,                         "down": False, "on": False, "val": 0.0}, # 3
+    { "hue": hue["red"],     "mode": MODE_TOGGLE, "kc": Keycode.F6,                   "down": False, "on": False, "val": 0.0}, # 4
+    { "hue": hue["magenta"], "mode": MODE_KEY,    "kc": Keycode.F10,                  "down": False, "on": False, "val": 0.0}, # 5
+    { "hue": hue["magenta"], "mode": MODE_NONE,   "kc": None,                         "down": False, "on": False, "val": 0.0}, # 6
+    { "hue": hue["magenta"], "mode": MODE_NONE,   "kc": None,                         "down": False, "on": False, "val": 0.0}, # 7
+    { "hue": hue["red"],     "mode": MODE_TOGGLE, "kc": Keycode.F7,                   "down": False, "on": False, "val": 0.0}, # 8
+    { "hue": hue["magenta"], "mode": MODE_KEY,    "kc": Keycode.F11,                  "down": False, "on": False, "val": 0.0}, # 9
+    { "hue": hue["magenta"], "mode": MODE_NONE,   "kc": None,                         "down": False, "on": False, "val": 0.0}, # A
+    { "hue": hue["magenta"], "mode": MODE_NONE,   "kc": None,                         "down": False, "on": False, "val": 0.0}, # B
+    { "hue": hue["red"],     "mode": MODE_TOGGLE, "kc": Keycode.F8,                   "down": False, "on": False, "val": 0.0}, # C
+    { "hue": hue["magenta"], "mode": MODE_KEY,    "kc": Keycode.F12,                  "down": False, "on": False, "val": 0.0}, # D
+    { "hue": hue["magenta"], "mode": MODE_NONE,   "kc": None,                         "down": False, "on": False, "val": 0.0}, # E
+    { "hue": hue["magenta"], "mode": MODE_NONE,   "kc": None,                         "down": False, "on": False, "val": 0.0}, # F
 ]
 
 # Set up the keyboard and layout
@@ -120,6 +121,20 @@ for key in keys:
         global active
         print("{} pressed".format(key.number))
         config[key.number]["down"] = True
+        if config[key.number]["kc"] != None:
+            if config[key.number]["mode"] == MODE_KEY:
+                print(f'press {KC_COMMON}+{KC_ON}+{config[key.number]["kc"]}')
+                if KC_LIVE: keyboard.press(KC_COMMON, KC_ON, config[key.number]["kc"])
+            elif config[key.number]["mode"] == MODE_TOGGLE:
+                if config[key.number]["on"]:
+                    config[key.number]["on"] = False
+                    print(f'press {KC_COMMON}+{KC_OFF}+{config[key.number]["kc"]}')
+                    if KC_LIVE: keyboard.press(KC_COMMON, KC_OFF, config[key.number]["kc"])
+                else:
+                    config[key.number]["on"] = True
+                    print(f'press {KC_COMMON}+{KC_ON}+{config[key.number]["kc"]}')
+                    if KC_LIVE: keyboard.press(KC_COMMON, KC_ON, config[key.number]["kc"])
+
 #        if False:
 #            binding = keycodes[key.number]
 #            if binding is None:
@@ -140,6 +155,17 @@ for key in keys:
         global active
         print("{} released".format(key.number))
         config[key.number]["down"] = False
+        if config[key.number]["kc"] != None:
+            if config[key.number]["mode"] == MODE_KEY:
+                print(f'release {KC_COMMON}+{KC_ON}+{config[key.number]["kc"]}')
+                if KC_LIVE: keyboard.release(KC_COMMON, KC_ON, config[key.number]["kc"])
+            elif config[key.number]["mode"] == MODE_TOGGLE:
+                if config[key.number]["on"]:
+                    print(f'release {KC_COMMON}+{KC_ON}+{config[key.number]["kc"]}')
+                    if KC_LIVE: keyboard.release(KC_COMMON, KC_ON, config[key.number]["kc"])
+                else:
+                    print(f'release {KC_COMMON}+{KC_OFF}+{config[key.number]["kc"]}')
+                    if KC_LIVE: keyboard.release(KC_COMMON, KC_OFF, config[key.number]["kc"])
  #       if False:
  #           binding = keycodes[key.number]
  #           if binding is None:
@@ -167,16 +193,20 @@ while True:
         s = 0
         v = 0
         # No mode ?
-        if config[i]["mode"] == MODE_NONE:
+        if config[i]["mode"] == MODE_NONE or config[i]["kc"] == None:
             # Turn off key
             keys[i].set_led(0, 0, 0)
         else:
             # Pad is down ?
             if config[i]["down"]:
-                # Set target val
-                v = VAL_DOWN
-                # Instant jump to down value
-                config[i]["val"] = v
+                if config[i]["mode"] == MODE_KEY:
+                    config[i]["val"] = VAL_MAX
+                    v = VAL_MAX
+                elif config[i]["mode"] == MODE_TOGGLE:
+                    if config[i]["on"]:
+                        config[i]["val"] = v = VAL_MAX
+                    else:
+                        config[i]["val"] = v = VAL_MIN
             # Pad is not down
             else:
                 if config[i]["on"]:
