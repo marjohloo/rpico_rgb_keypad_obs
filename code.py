@@ -43,7 +43,7 @@ from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
 from adafruit_hid.keycode import Keycode
 
 # When true keycodes are sent
-KC_LIVE = False
+KC_LIVE = True
 
 # Modes
 MODE_NONE   = 0
