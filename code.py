@@ -1,3 +1,5 @@
+# rpico_rgb_keypad_obs v1.0.1
+#
 # SPDX-FileCopyrightText: 2023 Martin Looker
 #
 # SPDX-License-Identifier: MIT
@@ -166,15 +168,23 @@ for i in range(16):
 def press_kcs(kcs):
     print(f'keycode press {kcs} {KC_LIVE}')
     if KC_LIVE:
-        for kc in kcs:
-            keyboard.press(kc)
+        if len(kcs) == 1:
+            keyboard.press(kcs[0])
+        elif len(kcs) == 2:
+            keyboard.press(kcs[0], kcs[1])
+        elif len(kcs) == 3:
+            keyboard.press(kcs[0], kcs[1], kcs[2])
 
 # Releases a list of keycodes
 def release_kcs(kcs):
     print(f'keycode release {kcs} {KC_LIVE}')
     if KC_LIVE:
-        for kc in kcs:
-            keyboard.release(kc)
+        if len(kcs) == 1:
+            keyboard.release(kcs[0])
+        elif len(kcs) == 2:
+            keyboard.release(kcs[0], kcs[1])
+        elif len(kcs) == 3:
+            keyboard.release(kcs[0], kcs[1], kcs[2])
 
 # Process key presses/releases
 for key in keys:
