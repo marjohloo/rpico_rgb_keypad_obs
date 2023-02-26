@@ -1,6 +1,8 @@
-# rpico_rgb_keypad_obs
+# rpico_rgb_keypad_obs (v1.0.1)
 
 This project uses a [Pimoroni Pico RGB Keypad Base](https://shop.pimoroni.com/products/pico-rgb-keypad-base) and [Raspberry Pi Pico](https://shop.pimoroni.com/products/raspberry-pi-pico?variant=40059364311123) to create a device that appears as a USB keyboard that can be used to control OBS Studio or other software. The software will also run on a [Pimoroni Keybow 2040](https://shop.pimoroni.com/products/keybow-2040?variant=32399559622739) (with a small code change).
+
+Demonstration video at: https://vimeo.com/802443378.
 
 The keypads are mapped to keys `F13` through to `F24` (sometimes in combination with `Shift`, `Alt` and `Ctrl` keys), these keys are not usually present on modern keyboards and so should not clash with other applications.
 
@@ -46,7 +48,9 @@ The default configuration (which can be changed in software) is:
 
 [Pimoroni Keybow 2040](https://shop.pimoroni.com/products/keybow-2040?variant=32399559622739) 
 
-## CircuitPython Installation
+## Installation
+
+### CircuitPython
 
 You will need to download the [CircuitPython .uf2](https://circuitpython.org/board/raspberry_pi_pico/) file for the Pico, to install it:
 
@@ -55,7 +59,7 @@ You will need to download the [CircuitPython .uf2](https://circuitpython.org/boa
 3. Copy the downloaded `.uf2` file to the drive
 4. The Pico will reboot and mount as a `CIRCUITPY` drive
 
-## rpi_pico_rgb_keypad_osb Installation
+### rpi_pico_rgb_keypad_osb
 
 To install the software:
 
@@ -64,6 +68,10 @@ To install the software:
 3. Copy the unzipped files to your `CIRCUITPY` drive
 
 Note, the required libraries are included in the ZIP file.
+
+### OBS Studio Configuration
+
+To bind the keypads in OBS Studio got into the Settings and select the Hotkeys tab. You can then press the appropriate keypad to bind it to a specific function.
 
 ## code.py Modifications
 
@@ -134,7 +142,7 @@ The code makes use of the following libraries (these are included in the release
 * https://github.com/pimoroni/pmk-circuitpython
   * lib/pmk/
 
-# Notices
+## Notices
 
 Copyright (c) 2023 Martin Looker
 
