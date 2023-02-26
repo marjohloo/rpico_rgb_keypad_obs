@@ -38,7 +38,7 @@
 
 import math
 from pmk import PMK, number_to_xy, hsv_to_rgb
-# from pmk.platform.keybow2040 import Keybow2040 as Hardware          # for Keybow 2040
+# from pmk.platform.keybow2040 import Keybow2040 as Hardware        # for Keybow 2040
 from pmk.platform.rgbkeypadbase import RGBKeypadBase as Hardware  # for Pico RGB Keypad Base
 
 import usb_hid
@@ -78,11 +78,25 @@ hue = {
     "mrr"     : (HUE_SPLIT * 23.0),
 }
 
-# Hue: set this for the pad color
-# Group: set this to group pads together to operate like radio buttons (good for scene selection)
-# Keycodes On: these are the keyboard codes to be sent for normal, grouped and toggle on pads
-# Keycodes Off: these are the keyboard codes to be sent for toggle off pads, setting this makes a toggle button, good for start/stop streaming
-# Note: pads configured as toggles will be removed from any groups
+# Hue:
+#   Set this for the pad color.
+#
+# Group:
+#   Set this to group pads together to operate like radio buttons (good for
+#   scene selection). You can have many separate groups of keys as set by the
+#   string set for the group
+#
+# Keycodes On:
+#   These are the keyboard codes to be sent for normal, grouped and toggle on
+#   pads.
+#
+# Keycodes Off:
+#   These are the keyboard codes to be sent for toggle off pads, setting this
+#   makes a toggle button, good for start/stop streaming
+#
+# Note:
+#   Pads configured as toggles will be removed from any groups
+#
 config = [
     {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F13],                  "keycodes_off": None                      }, # 0
     {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F14],                  "keycodes_off": None                      }, # 1
