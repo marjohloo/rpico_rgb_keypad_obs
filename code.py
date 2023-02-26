@@ -8,10 +8,13 @@
 #
 # Keys are as follows:
 #
-# Green: 11 scene keys, only one scene can be active at a time
-# Cyan: 2 general keys
-# Red, Yellow, Magenta: 3 toggle keys different key combos are sent when toggling on
-# or off, so map these to start/stop hotkeys for start/stop streaming etc
+# Green:
+#   11 scene keys, only one scene can be active at a time
+# Cyan, Blue:
+#   2 general keys
+# Red, Yellow, Magenta:
+#   3 toggle keys different key combos are sent when toggling on or off, so map these to start/stop
+#   hotkeys for start/stop streaming etc
 #
 # HARDWARE
 #
@@ -24,6 +27,7 @@
 #   https://circuitpython.org/board/raspberry_pi_pico/
 #   https://github.com/adafruit/Adafruit_DotStar
 #   https://github.com/adafruit/Adafruit_CircuitPython_HID
+#
 # pimoroni:
 #   https://github.com/pimoroni/pmk-circuitpython
 #
@@ -45,13 +49,7 @@ from adafruit_hid.keycode import Keycode
 # When true keycodes are sent
 KC_LIVE = True
 
-# Modes
-MODE_NONE   = 0
-MODE_KEY    = 1
-MODE_SCENE  = 2
-MODE_TOGGLE = 3
-
-# Hues
+# LED Hues
 HUE_SPLIT = (1.0/24.0)
 hue = {
     "red"     : (HUE_SPLIT *  0.0),
@@ -80,38 +78,37 @@ hue = {
     "mrr"     : (HUE_SPLIT * 23.0),
 }
 
-# Values
+# Hue: set this for the pad color
+# Group: set this to group pads together to operate like radio buttons (good for scene selection)
+# Keycodes On: these are the keyboard codes to be sent for normal, grouped and toggle on pads
+# Keycodes Off: these are the keyboard codes to be sent for toggle off pads, setting this makes a toggle button, good for start/stop streaming
+# Note: pads configured as toggles will be removed from any groups
+config = [
+    {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F13],                  "keycodes_off": None                      }, # 0
+    {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F14],                  "keycodes_off": None                      }, # 1
+    {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F15],                  "keycodes_off": None                      }, # 2
+    {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F16],                  "keycodes_off": None                      }, # 3
+    {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F17],                  "keycodes_off": None                      }, # 4
+    {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F18],                  "keycodes_off": None                      }, # 5
+    {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F19],                  "keycodes_off": None                      }, # 6
+    {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F20],                  "keycodes_off": None                      }, # 7
+    {"hue": hue["cyan"]   , "group": None   , "keycodes_on": [Keycode.SHIFT,   Keycode.F13], "keycodes_off": None                      }, # 8
+    {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F21],                  "keycodes_off": None                      }, # 9
+    {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F22],                  "keycodes_off": None                      }, # A
+    {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F23],                  "keycodes_off": None                      }, # B
+    {"hue": hue["blue"]   , "group": None   , "keycodes_on": [Keycode.SHIFT,   Keycode.F14], "keycodes_off": None                      }, # C
+    {"hue": hue["magenta"], "group": None   , "keycodes_on": [Keycode.CONTROL, Keycode.F13], "keycodes_off": [Keycode.ALT, Keycode.F13]}, # D
+    {"hue": hue["yellow"] , "group": None   , "keycodes_on": [Keycode.CONTROL, Keycode.F14], "keycodes_off": [Keycode.ALT, Keycode.F14]}, # E
+    {"hue": hue["red"]    , "group": None   , "keycodes_on": [Keycode.CONTROL, Keycode.F15], "keycodes_off": [Keycode.ALT, Keycode.F15]}  # F
+]
+
+# LED Values (brightness)
 VAL_SPLIT = (1.0/32.0)
 VAL_MIN   = (VAL_SPLIT *  0.0)
 VAL_OFF   = (VAL_SPLIT *  1.0)
 VAL_ON    = (VAL_SPLIT * 20.0)
 VAL_MAX   = (VAL_SPLIT * 32.0)
 VAL_STEP  = 0.01
-
-# Keycodes
-KC_COMMON = Keycode.WINDOWS # Common - always sent
-KC_ON     = Keycode.CONTROL # On - sent for normal presses and toggle on
-KC_OFF    = Keycode.ALT     # Off - sent for toggle off'
-
-# Configuration
-config = [
-    { "hue": hue["green"],   "mode": MODE_SCENE,  "kc": Keycode.KEYPAD_ZERO,          "down": False, "on": False, "val": 1.0 }, # 0
-    { "hue": hue["green"],   "mode": MODE_SCENE,  "kc": Keycode.KEYPAD_ONE,           "down": False, "on": False, "val": 1.0 }, # 1
-    { "hue": hue["green"],   "mode": MODE_SCENE,  "kc": Keycode.KEYPAD_FOUR,          "down": False, "on": False, "val": 1.0 }, # 2
-    { "hue": hue["green"],   "mode": MODE_SCENE,  "kc": Keycode.KEYPAD_SEVEN,         "down": False, "on": False, "val": 1.0 }, # 3
-    { "hue": hue["green"],   "mode": MODE_SCENE,  "kc": Keycode.KEYPAD_PERIOD,        "down": False, "on": False, "val": 1.0 }, # 4
-    { "hue": hue["green"],   "mode": MODE_SCENE,  "kc": Keycode.KEYPAD_TWO,           "down": False, "on": False, "val": 1.0 }, # 5
-    { "hue": hue["green"],   "mode": MODE_SCENE,  "kc": Keycode.KEYPAD_FIVE,          "down": False, "on": False, "val": 1.0 }, # 6
-    { "hue": hue["green"],   "mode": MODE_SCENE,  "kc": Keycode.KEYPAD_EIGHT,         "down": False, "on": False, "val": 1.0 }, # 7
-    { "hue": hue["cyan"],    "mode": MODE_KEY,    "kc": Keycode.F12,                  "down": False, "on": False, "val": 1.0 }, # 8
-    { "hue": hue["green"],   "mode": MODE_SCENE,  "kc": Keycode.KEYPAD_THREE,         "down": False, "on": False, "val": 1.0 }, # 9
-    { "hue": hue["green"],   "mode": MODE_SCENE,  "kc": Keycode.KEYPAD_SIX,           "down": False, "on": False, "val": 1.0 }, # A
-    { "hue": hue["green"],   "mode": MODE_SCENE,  "kc": Keycode.KEYPAD_NINE,          "down": False, "on": False, "val": 1.0 }, # B
-    { "hue": hue["cyan"],    "mode": MODE_KEY,    "kc": Keycode.KEYPAD_ENTER,         "down": False, "on": False, "val": 1.0 }, # C
-    { "hue": hue["magenta"], "mode": MODE_TOGGLE, "kc": Keycode.KEYPAD_PLUS,          "down": False, "on": False, "val": 1.0 }, # D
-    { "hue": hue["yellow"],  "mode": MODE_TOGGLE, "kc": Keycode.KEYPAD_MINUS,         "down": False, "on": False, "val": 1.0 }, # E
-    { "hue": hue["red"],     "mode": MODE_TOGGLE, "kc": Keycode.KEYPAD_PERIOD,        "down": False, "on": False, "val": 1.0 }, # F
-]
 
 # Set up the keyboard and layout
 keyboard = Keyboard(usb_hid.devices)
@@ -121,114 +118,190 @@ layout = KeyboardLayoutUS(keyboard)
 keybow = PMK(Hardware())
 keys = keybow.keys
 
-#states = [False for _ in keys]
+# Add runtime data to config
+for i in range(16):
+    # Defaults
+    # Mode is toggle
+    config[i]["mode"] = None
+    # Set LED value to max
+    config[i]["val"] = VAL_MAX
+    # Not down
+    config[i]["down"] = False
+    # Not on
+    config[i]["on"] = False
+    # This is a toggle pad ?
+    if config[i]["keycodes_off"] != None and len(config[i]["keycodes_off"]) and len(config[i]["keycodes_on"]):
+        # Mode is toggle
+        config[i]["mode"] = "toggle"
+        # Can't be in a group
+        config[i]["group"] = None
+    # This is a grouped pad ?
+    if config[i]["group"] != None and len(config[i]["keycodes_on"]):
+        # Mode is group
+        config[i]["mode"] = "group"
+    # This is a key pad ?
+    if config[i]["mode"] == None and len(config[i]["keycodes_on"]):
+        # Mode is key
+        config[i]["mode"] = "key"
+    # This key has not got a mode ?
+    if config[i]["mode"] == None:
+        # Set LED value to min (not lit)
+        config[i]["val"] = VAL_MIN
 
-# Increment step to shift animation across keys.
-step = 0
-active = -1
+# Presses a list of keycodes
+def press_kcs(kcs):
+    print(f'keycode press {kcs} {KC_LIVE}')
+    if KC_LIVE:
+        for kc in kcs:
+            keyboard.press(kc)
 
+# Releases a list of keycodes
+def release_kcs(kcs):
+    print(f'keycode release {kcs} {KC_LIVE}')
+    if KC_LIVE:
+        for kc in kcs:
+            keyboard.release(kc)
+
+# Process key presses/releases
 for key in keys:
+    # Pad pressed?
     @keybow.on_press(key)
     def press_handler(key):
-        global active
-        print("{} pressed".format(key.number))
+        print(f'keypad press {key.number}')
+        # Pad is now down
         config[key.number]["down"] = True
-        if config[key.number]["kc"] != None:
-            if config[key.number]["mode"] == MODE_KEY:
-                print(f'press {KC_COMMON}+{KC_ON}+{config[key.number]["kc"]}')
-                if KC_LIVE: keyboard.press(KC_COMMON, KC_ON, config[key.number]["kc"])
-            elif config[key.number]["mode"] == MODE_TOGGLE:
-                if config[key.number]["on"]:
-                    config[key.number]["on"] = False
-                    print(f'press {KC_COMMON}+{KC_OFF}+{config[key.number]["kc"]}')
-                    if KC_LIVE: keyboard.press(KC_COMMON, KC_OFF, config[key.number]["kc"])
-                else:
-                    config[key.number]["on"] = True
-                    print(f'press {KC_COMMON}+{KC_ON}+{config[key.number]["kc"]}')
-                    if KC_LIVE: keyboard.press(KC_COMMON, KC_ON, config[key.number]["kc"])
-            elif config[key.number]["mode"] == MODE_SCENE:
+        # Normal pad ?
+        if config[key.number]["mode"] == "key":
+            # Press the on keycodes
+            press_kcs(config[key.number]["keycodes_on"])
+        # Toggle pad ?
+        elif config[key.number]["mode"] == "toggle":
+            # Toggle is currently on ?
+            if config[key.number]["on"]:
+                # Turn off
+                config[key.number]["on"] = False
+                # Press the off keycodes
+                press_kcs(config[key.number]["keycodes_off"])
+            # Toggle is currently off ?
+            else:
+                # Turn on
                 config[key.number]["on"] = True
-                print(f'press {KC_COMMON}+{KC_ON}+{config[key.number]["kc"]}')
-                if KC_LIVE: keyboard.press(KC_COMMON, KC_ON, config[key.number]["kc"])                    
-                for i in range(16):
-                    if i != key.number:
-                        if config[i]["mode"] == MODE_SCENE:
-                            if config[i]["on"]:
-                                config[i]["on"] = False
-                                config[i]["val"] = VAL_MIN
+                # Press the on keycodes
+                press_kcs(config[key.number]["keycodes_on"])
+        # Grouped pad ?
+        elif config[key.number]["mode"] == "group":
+            # Turn on the pressed pad
+            config[key.number]["on"] = True
+            # Press the on keycodes
+            press_kcs(config[key.number]["keycodes_on"])
+            # Loop through pads
+            for i in range(16):
+                # Not the pad that has just been pressed ?
+                if i != key.number:
+                    # This pad is in the same group as the pad that has just been pressed ?
+                    if config[i]["mode"] == "group" and config[i]["group"] == config[key.number]["group"]:
+                        # The pad is on ?
+                        if config[i]["on"]:
+                            # Turn it off
+                            config[i]["on"] = False
+                            # Set val to minimum
+                            config[i]["val"] = VAL_MIN
 
+    # Pad released ?
     @keybow.on_release(key)
     def release_handler(key):
-        global active
-        print("{} released".format(key.number))
+        print(f'keypad release {key.number}')
+        # Pad is not down
         config[key.number]["down"] = False
-        if config[key.number]["kc"] != None:
-            if config[key.number]["mode"] == MODE_KEY:
-                print(f'release {KC_COMMON}+{KC_ON}+{config[key.number]["kc"]}')
-                if KC_LIVE: keyboard.release(KC_COMMON, KC_ON, config[key.number]["kc"])
-            elif config[key.number]["mode"] == MODE_TOGGLE:
-                if config[key.number]["on"]:
-                    print(f'release {KC_COMMON}+{KC_ON}+{config[key.number]["kc"]}')
-                    if KC_LIVE: keyboard.release(KC_COMMON, KC_ON, config[key.number]["kc"])
-                else:
-                    print(f'release {KC_COMMON}+{KC_OFF}+{config[key.number]["kc"]}')
-                    if KC_LIVE: keyboard.release(KC_COMMON, KC_OFF, config[key.number]["kc"])
-            elif config[key.number]["mode"] == MODE_SCENE:
-                print(f'release {KC_COMMON}+{KC_ON}+{config[key.number]["kc"]}')
-                if KC_LIVE: keyboard.release(KC_COMMON, KC_ON, config[key.number]["kc"])                     
+        # Normal pad ?
+        if config[key.number]["mode"] == "key":
+            # Release on keycodes
+            release_kcs(config[key.number]["keycodes_on"])
+        # Toggle pad ?
+        elif config[key.number]["mode"] == "toggle":
+            # Pad has been toggled on ?
+            if config[key.number]["on"]:
+                # Release on keycodes
+                release_kcs(config[key.number]["keycodes_on"])
+            # Pad has just been turned off ?
+            else:
+                # Release off keycodes
+                release_kcs(config[key.number]["keycodes_off"])
+        # Grouped pad
+        elif config[key.number]["mode"] == "group":
+            # Release on keycodes
+            release_kcs(config[key.number]["keycodes_on"])
 
+    # Pad held ?
     @keybow.on_hold(key)
     def hold_handler(key):
         pass
 
-
+# Main loop
 while True:
     # Always remember to call keybow.update() on every iteration of your loop!
     keybow.update()
-    # Loop through keys
+    # Loop through pads
     for i in range(16):
-        h = 0
-        s = 0
-        v = 0
+        # Start with LED off
+        h = 0.0
+        s = 0.0
+        v = 0.0
         # No mode ?
-        if config[i]["mode"] == MODE_NONE or config[i]["kc"] == None:
-            # Turn off key
+        if config[i]["mode"] == None:
+            # Turn off LED
             keys[i].set_led(0, 0, 0)
+        # Pad has a mode ?
         else:
             # Pad is down ?
             if config[i]["down"]:
-                if config[i]["mode"] == MODE_KEY or config[i]["mode"] == MODE_SCENE:
-                    config[i]["val"] = VAL_MAX
-                    v = VAL_MAX
-                elif config[i]["mode"] == MODE_TOGGLE:
+                # Normal or grouped pad
+                if config[i]["mode"] == "key" or config[i]["mode"] == "group":
+                    # Go to full brightness
+                    config[i]["val"] = v = VAL_MAX
+                # Toggle pad?
+                elif config[i]["mode"] == "toggle":
+                    # Toggled on ?
                     if config[i]["on"]:
+                        # Go to full brightness
                         config[i]["val"] = v = VAL_MAX
+                    # Toggled off ?
                     else:
+                        # Go to min brightness
                         config[i]["val"] = v = VAL_MIN
             # Pad is not down
             else:
+                # Pad is on
                 if config[i]["on"]:
+                    # Set target on brightness
                     v = VAL_ON
+                # Pad is off ?
                 else:
+                    # Set target off brightness
                     v = VAL_OFF
             # Target value above current value ?
             if v > config[i]["val"]:
+                # Move towards target
                 if v - config[i]["val"] > VAL_STEP:
                     config[i]["val"] += VAL_STEP
                 else:
                     config[i]["val"] = v
+            # Target value below current value
             elif v < config[i]["val"]:
+                # Move towards target
                 if config[i]["val"] - v > VAL_STEP:
                     config[i]["val"] -= VAL_STEP
                 else:
                     config[i]["val"] = v
             # Pad has a hue ?
             if config[i]["hue"] is not None:
+                # Set full saturation
                 s = 1.0
+                # Set hue
                 h = config[i]["hue"]
             # Convert the hue to RGB values.
             r, g, b = hsv_to_rgb(h, s, config[i]["val"])
  #           if i == 0:
  #                print(f'{h} {s} {config[i]["val"]} {r} {g} {b} rgb')
-            # Display it on the key!
+            # Finally set the LED
             keys[i].set_led(r, g, b)
