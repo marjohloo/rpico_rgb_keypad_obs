@@ -44,7 +44,7 @@ The default configuration (which can be changed in software) is:
 
 ### Keybow 2040
 
-* [Pimoroni Keybow 2040](https://shop.pimoroni.com/products/keybow-2040?variant=32399559622739) 
+[Pimoroni Keybow 2040](https://shop.pimoroni.com/products/keybow-2040?variant=32399559622739) 
 
 ## CircuitPython Installation
 
