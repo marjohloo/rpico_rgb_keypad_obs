@@ -44,11 +44,11 @@ The default configuration (which can be changed in software) is:
 
 ### Keybow 2040
 
-[Pimoroni Keybow 2040](https://shop.pimoroni.com/products/keybow-2040?variant=32399559622739) 
+* [Pimoroni Keybow 2040](https://shop.pimoroni.com/products/keybow-2040?variant=32399559622739) 
 
 ## CircuitPython Installation
 
-You will need to download the [CircuitPython .uf2 file](https://circuitpython.org/board/raspberry_pi_pico/) for the Pico, to install it:
+You will need to download the [CircuitPython .uf2](https://circuitpython.org/board/raspberry_pi_pico/) file for the Pico, to install it:
 
 1. Attach the micro USB cable to the Pico whilst holding down the `BOOTSEL` button
 2. The Pico will mount as a `RPI-RP2` drive on your PC
@@ -59,7 +59,7 @@ You will need to download the [CircuitPython .uf2 file](https://circuitpython.or
 
 To install the software:
 
-1. Download the latest release ZIP from the [Releases area on GIthub](https://github.com/marjohloo/rpico_rgb_keypad/releases)
+1. Download the latest release ZIP from [Github Releases](https://github.com/marjohloo/rpico_rgb_keypad/releases)
 2. Unzip to your local computer
 3. Copy the unzipped files to your `CIRCUITPY` drive
 
@@ -138,4 +138,4 @@ The code makes use of the following libraries (these are included in the release
 
 Copyright (c) 2023 Martin Looker
 
-This code is released under the MIT license, see the [LICENSE](https://github.com/marjohloo/rpico_rgb_keypad/blob/main/LICENSE) file for details.
+This code is released under the MIT license, see [LICENSE](https://github.com/marjohloo/rpico_rgb_keypad/blob/main/LICENSE) for details.
