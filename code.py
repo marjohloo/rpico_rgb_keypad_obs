@@ -40,8 +40,8 @@
 
 import math
 from pmk import PMK, number_to_xy, hsv_to_rgb
-from pmk.platform.keybow2040 import Keybow2040 as Hardware        # for Keybow 2040
-# from pmk.platform.rgbkeypadbase import RGBKeypadBase as Hardware  # for Pico RGB Keypad Base
+# from pmk.platform.keybow2040 import Keybow2040 as Hardware        # for Keybow 2040
+from pmk.platform.rgbkeypadbase import RGBKeypadBase as Hardware  # for Pico RGB Keypad Base
 
 import usb_hid
 from adafruit_hid.keyboard import Keyboard
@@ -100,24 +100,42 @@ hue = {
 #   Pads configured as toggles will be removed from any groups
 #
 config = [
-    {"hue": hue["yg"]     , "group": "scene", "keycodes_on": [Keycode.F13],                  "keycodes_off": None                      }, # 0
-    {"hue": hue["yellow"] , "group": "scene", "keycodes_on": [Keycode.F14],                  "keycodes_off": None                      }, # 1
-    {"hue": hue["yg"]     , "group": "scene", "keycodes_on": [Keycode.F15],                  "keycodes_off": None                      }, # 2
-    {"hue": hue["red"]    , "group": None   , "keycodes_on": [Keycode.CONTROL, Keycode.F13], "keycodes_off": [Keycode.ALT, Keycode.F13]}, # 3
-    {"hue": hue["gc"]     , "group": "scene", "keycodes_on": [Keycode.F16],                  "keycodes_off": None                      }, # 4
-    {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F17],                  "keycodes_off": None                      }, # 5
-    {"hue": hue["gc"]     , "group": "scene", "keycodes_on": [Keycode.F18],                  "keycodes_off": None                      }, # 6
-    {"hue": hue["rry"]    , "group": None   , "keycodes_on": [Keycode.CONTROL, Keycode.F14], "keycodes_off": [Keycode.ALT, Keycode.F14]}, # 7
-    {"hue": hue["cb"]     , "group": "scene", "keycodes_on": [Keycode.F19],                  "keycodes_off": None                      }, # 8
-    {"hue": hue["cyan"]   , "group": "scene", "keycodes_on": [Keycode.F20],                  "keycodes_off": None                      }, # 9
-    {"hue": hue["cb"]     , "group": "scene", "keycodes_on": [Keycode.F21],                  "keycodes_off": None                      }, # A
-    {"hue": hue["ry"]     , "group": None,    "keycodes_on": [Keycode.SHIFT, Keycode.F13]  , "keycodes_off": None                      }, # B
-    {"hue": hue["bm"]     , "group": "scene", "keycodes_on": [Keycode.F22],                  "keycodes_off": None                      }, # C
-    {"hue": hue["blue"]   , "group": "scene", "keycodes_on": [Keycode.F23],                  "keycodes_off": None                      }, # D
-    {"hue": hue["bm"]     , "group": "scene", "keycodes_on": [Keycode.F24],                  "keycodes_off": None                      }, # E
-    {"hue": hue["ryy"]    , "group": None   , "keycodes_on": [Keycode.CONTROL, Keycode.F16], "keycodes_off": [Keycode.ALT, Keycode.F16]}  # F
-
+    {"hue": hue["magenta"], "group": "scene", "keycodes_on": [Keycode.F13],                  "keycodes_off": None                        }, # 0
+    {"hue": hue["magenta"], "group": "scene", "keycodes_on": [Keycode.F14],                  "keycodes_off": None                        }, # 1
+    {"hue": hue["magenta"], "group": "scene", "keycodes_on": [Keycode.F15],                  "keycodes_off": None                        }, # 2
+    {"hue": hue["magenta"], "group": "scene", "keycodes_on": [Keycode.F16],                  "keycodes_off": None                        }, # 3
+    {"hue": hue["magenta"], "group": "scene", "keycodes_on": [Keycode.F17],                  "keycodes_off": None                        }, # 4
+    {"hue": hue["magenta"], "group": "scene", "keycodes_on": [Keycode.F18],                  "keycodes_off": None                        }, # 5
+    {"hue": hue["magenta"], "group": "scene", "keycodes_on": [Keycode.F19],                  "keycodes_off": None                        }, # 6
+    {"hue": hue["magenta"], "group": "scene", "keycodes_on": [Keycode.F20],                  "keycodes_off": None                        }, # 7
+    {"hue": hue["magenta"], "group": "scene", "keycodes_on": [Keycode.F21],                  "keycodes_off": None                        }, # 8
+    {"hue": hue["magenta"], "group": "scene", "keycodes_on": [Keycode.F22],                  "keycodes_off": None                        }, # 9
+    {"hue": hue["magenta"], "group": "scene", "keycodes_on": [Keycode.F23],                  "keycodes_off": None                        }, # A
+    {"hue": hue["magenta"], "group": "scene", "keycodes_on": [Keycode.F24],                  "keycodes_off": None                        }, # B
+    {"hue": hue["cyan"]   , "group": None,    "keycodes_on": [Keycode.SHIFT,   Keycode.F13], "keycodes_off": [Keycode.SHIFT, Keycode.F13]}, # C
+    {"hue": hue["cyan"]   , "group": None,    "keycodes_on": [Keycode.SHIFT,   Keycode.F14], "keycodes_off": [Keycode.SHIFT, Keycode.F14]}, # D
+    {"hue": hue["green"]  , "group": None,    "keycodes_on": [Keycode.CONTROL, Keycode.F13], "keycodes_off": [Keycode.ALT,   Keycode.F13]}, # E
+    {"hue": hue["red"]    , "group": None   , "keycodes_on": [Keycode.CONTROL, Keycode.F14], "keycodes_off": [Keycode.ALT,   Keycode.F14]}  # F
 ]
+
+#config = [
+#    {"hue": hue["yg"]     , "group": "scene", "keycodes_on": [Keycode.F13],                  "keycodes_off": None                      }, # 0
+#    {"hue": hue["yellow"] , "group": "scene", "keycodes_on": [Keycode.F14],                  "keycodes_off": None                      }, # 1
+#    {"hue": hue["yg"]     , "group": "scene", "keycodes_on": [Keycode.F15],                  "keycodes_off": None                      }, # 2
+#    {"hue": hue["red"]    , "group": None   , "keycodes_on": [Keycode.CONTROL, Keycode.F13], "keycodes_off": [Keycode.ALT, Keycode.F13]}, # 3
+#    {"hue": hue["gc"]     , "group": "scene", "keycodes_on": [Keycode.F16],                  "keycodes_off": None                      }, # 4
+#    {"hue": hue["green"]  , "group": "scene", "keycodes_on": [Keycode.F17],                  "keycodes_off": None                      }, # 5
+#    {"hue": hue["gc"]     , "group": "scene", "keycodes_on": [Keycode.F18],                  "keycodes_off": None                      }, # 6
+#    {"hue": hue["rry"]    , "group": None   , "keycodes_on": [Keycode.CONTROL, Keycode.F14], "keycodes_off": [Keycode.ALT, Keycode.F14]}, # 7
+#    {"hue": hue["cb"]     , "group": "scene", "keycodes_on": [Keycode.F19],                  "keycodes_off": None                      }, # 8
+#    {"hue": hue["cyan"]   , "group": "scene", "keycodes_on": [Keycode.F20],                  "keycodes_off": None                      }, # 9
+#    {"hue": hue["cb"]     , "group": "scene", "keycodes_on": [Keycode.F21],                  "keycodes_off": None                      }, # A
+#    {"hue": hue["ry"]     , "group": None,    "keycodes_on": [Keycode.SHIFT, Keycode.F13]  , "keycodes_off": None                      }, # B
+#    {"hue": hue["bm"]     , "group": "scene", "keycodes_on": [Keycode.F22],                  "keycodes_off": None                      }, # C
+#    {"hue": hue["blue"]   , "group": "scene", "keycodes_on": [Keycode.F23],                  "keycodes_off": None                      }, # D
+#    {"hue": hue["bm"]     , "group": "scene", "keycodes_on": [Keycode.F24],                  "keycodes_off": None                      }, # E
+#    {"hue": hue["ryy"]    , "group": None   , "keycodes_on": [Keycode.CONTROL, Keycode.F16], "keycodes_off": [Keycode.ALT, Keycode.F16]}  # F
+#]
 
 # LED Values (brightness)
 VAL_SPLIT = (1.0/32.0)
